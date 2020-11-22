@@ -14,6 +14,8 @@ import java.util.Objects;
 public abstract class MensageriaBase implements Closeable {
 
     private ConnectionFactory factory;
+
+    @Getter(AccessLevel.PROTECTED)
     private Connection connection;
 
     @Getter(AccessLevel.PROTECTED)
@@ -22,7 +24,7 @@ public abstract class MensageriaBase implements Closeable {
     @Getter(AccessLevel.PROTECTED)
     private Destination destination;
 
-    @Getter(AccessLevel.PROTECTED)
+    @Getter
     private Session session;
 
     public void startConnection() throws Exception {
@@ -31,11 +33,15 @@ public abstract class MensageriaBase implements Closeable {
         connection = createConnection();
         destination = createDestination();
         connection.start();
-        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        session = createSession();
     }
 
     public Connection createConnection() throws JMSException {
         return factory.createConnection();
+    }
+
+    protected Session createSession() throws JMSException {
+        return getConnection().createSession(false, Session.AUTO_ACKNOWLEDGE);
     }
 
     public abstract Destination createDestination() throws NamingException;
@@ -59,6 +65,22 @@ public abstract class MensageriaBase implements Closeable {
             } catch (NamingException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public void commit() {
+        try {
+            session.commit();
+        } catch (JMSException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void rollback() {
+        try {
+            session.rollback();
+        } catch (JMSException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -8,14 +8,23 @@ import javax.naming.NamingException;
 
 public class ConsumidorFila extends ConsumidorBase {
 
+    private String fila = "financeiro";
+
     public static ConsumidorFila init() throws Exception {
         ConsumidorFila consumidor = new ConsumidorFila();
         consumidor.startConsumidor();
         return consumidor;
     }
 
+    public static ConsumidorFila init(String fila) throws Exception {
+        ConsumidorFila consumidor = new ConsumidorFila();
+        consumidor.fila = fila;
+        consumidor.startConsumidor();
+        return consumidor;
+    }
+
     public Destination createDestination() throws NamingException {
-        return (Destination) getContext().lookup("financeiro");
+        return (Destination) getContext().lookup(fila);
     }
 
     @Override
