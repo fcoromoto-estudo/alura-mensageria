@@ -1,4 +1,4 @@
-package br.com.fcoromoto.estudo.alura.mensageria.jms;
+package br.com.fcoromoto.estudo.alura.mensageria.jms.atores;
 
 import javax.jms.MessageConsumer;
 

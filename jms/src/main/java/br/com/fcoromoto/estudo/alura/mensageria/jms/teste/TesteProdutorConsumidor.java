@@ -1,11 +1,14 @@
-package br.com.fcoromoto.estudo.alura.mensageria.jms;
+package br.com.fcoromoto.estudo.alura.mensageria.jms.teste;
+
+import br.com.fcoromoto.estudo.alura.mensageria.jms.atores.Consumidor;
+import br.com.fcoromoto.estudo.alura.mensageria.jms.atores.Produtor;
 
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.TextMessage;
 import java.util.Scanner;
 
-public class TesteProdutor {
+public class TesteProdutorConsumidor {
 
     public static void main(String[] args) throws Exception {
         Produtor produtor = Produtor.init().init();

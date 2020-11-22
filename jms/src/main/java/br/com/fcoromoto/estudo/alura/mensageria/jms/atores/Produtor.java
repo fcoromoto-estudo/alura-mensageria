@@ -1,6 +1,4 @@
-package br.com.fcoromoto.estudo.alura.mensageria.jms;
-
-import br.com.fcoromoto.estudo.alura.mensageria.jms.util.ThrowingConsumer;
+package br.com.fcoromoto.estudo.alura.mensageria.jms.atores;
 
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
