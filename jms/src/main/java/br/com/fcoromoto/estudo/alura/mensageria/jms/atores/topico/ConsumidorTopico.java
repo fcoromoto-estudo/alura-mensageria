@@ -9,14 +9,20 @@ import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.Topic;
 import javax.naming.NamingException;
+import java.util.Objects;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConsumidorTopico extends ConsumidorBase {
 
     private String sessionID;
+    private String selector;
 
     public static ConsumidorTopico init(String sessionID) throws Exception {
-        ConsumidorTopico consumidor = new ConsumidorTopico(sessionID);
+        return init(sessionID, null);
+    }
+
+    public static ConsumidorTopico init(String sessionID, String selector) throws Exception {
+        ConsumidorTopico consumidor = new ConsumidorTopico(sessionID, selector);
         consumidor.startConsumidor();
         return consumidor;
     }
@@ -28,7 +34,10 @@ public class ConsumidorTopico extends ConsumidorBase {
     @Override
     protected MessageConsumer createConsumer() throws Exception {
         Topic destination = (Topic) getDestination();
-        return getSession().createDurableSubscriber(destination, "assinatura");
+        if (Objects.isNull(selector)) {
+            return getSession().createDurableSubscriber(destination, "assinatura");
+        }
+        return getSession().createDurableSubscriber(destination, "assinatura", selector, false);
     }
 
     @Override

@@ -14,8 +14,30 @@ public class TesteConsumidorTopico {
     public static void main(String[] args) throws Exception {
 
         String sessionID = Objects.requireNonNull(args[0]);
+        boolean isParametroFiltroPresente = isPresent(args, 1);
 
-        try (ConsumidorTopico consumidor = ConsumidorTopico.init(sessionID)) {
+        if (isParametroFiltroPresente) {
+            boolean mensagemFiltrada = Boolean.parseBoolean(args[1]);
+            consumirMensagemFiltrada(sessionID, true, mensagemFiltrada);
+        } else {
+            consumirMensagemFiltrada(sessionID, false, false);
+        }
+    }
+
+    public static boolean isPresent(String[] args, int indice) {
+        try {
+            return args[indice] != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static void consumirMensagemFiltrada(String sessionID, boolean usarSeletor, boolean mensagemFiltrada)
+            throws Exception {
+
+        String selector = usarSeletor ? ("filtro = " + mensagemFiltrada) : null;
+
+        try (ConsumidorTopico consumidor = ConsumidorTopico.init(sessionID, selector)) {
 
             consumidor.setMessageListener(message -> {
                 try {

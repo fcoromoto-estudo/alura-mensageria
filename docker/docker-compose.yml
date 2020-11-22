@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   activeMQ:
-    image: rmohr/activemq:5.12.0
+    image: rmohr/activemq:5.12.2
     user: root
     ports:
       - 61616:61616
